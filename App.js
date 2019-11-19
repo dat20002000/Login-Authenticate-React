@@ -1,41 +1,57 @@
-import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Button, TextInput } from 'react-native';
-import PropTypes from 'prop-types'
-import {Ionicons, FontAwesome, Entypo} from '@expo/vector-icons';
-import Header from './components/Header';
-import Card from './components/Card';
-import Score from './components/Score';
+import React from 'react';
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { history } from '../_helpers';
+import { alertActions } from '../_actions';
+import { PrivateRoute } from '../_components';
+import { HomePage } from '../HomePage';
+import { LoginPage } from '../LoginPage';
+import { RegisterPage } from '../RegisterPage';
 
 
-export default class App extends React.Component {
+class App extends React.Component {
 
-  static propTypes = {
-    value: PropTypes.string,
-  };
+  constructor(props) {
+    super(props);
+
+    history.listen((location, action) => {
+      this.props.clearAlerts();
+    });
+  }
 
   render() {
-    const {
-      value,
-    } = this.props;
+    const { alert } = this.props;
     return (
-      <View style={styles.container}>
-        <Text>Enter: </Text>
-        <TextInput value={value} style={styles.textInput}/>
-      </View>
+        <div className="jumbotron">
+            <div className="container">
+                <div className="col-sm-8 col-sm-offset-2">
+                    {alert.message &&
+                        <div className={`alert ${alert.type}`}>{alert.message}</div>
+                    }
+                    <Router history={history}>
+                        <Switch>
+                            <PrivateRoute exact path="/" component={HomePage} />
+                            <Route path="/login" component={LoginPage} />
+                            <Route path="/register" component={RegisterPage} />
+                            <Redirect from="*" to="/" />
+                        </Switch>
+                    </Router>
+                </div>
+            </div>
+        </div>
     );
-  }
+}
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    marginTop: 50,
-  },
-  textInput: {
-    backgroundColor: '#48484D',
-    height: 50,
-    color: '#fff',
-  }
-})
+function mapState(state) {
+  const { alert } = state;
+   return { alert };
+}
+
+const actionCreators = {
+  clearAlerts: alertActions.clear
+};
+
+const connectedApp = connect(mapState, actionCreators)(App);
+export {connectedApp as App};
