@@ -1,6 +1,3 @@
-import { resolve } from "dns";
-import { rejects } from "assert";
-
 let user = JSON.parse(localStorage.getItem('users') || []);
 
 export function configureFakeBackEnd() {
@@ -16,8 +13,20 @@ export function configureFakeBackEnd() {
                     });
 
                     if(filteredUsers.length){
-                        let user   
+                        let user = filteredUsers[0];
+                        let responseJson = {
+                            id: user.id,
+                            username: user.username,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            token: 'fake-jwt-token'
+                        };
+                        resolve({ ok: true, text: () => Promise.resolve(JSON.stringify(responseJson))});   
+                    } else {
+                        rejects('Username or Password is incorrect! Please try again');
                     }
+
+                    return;
                 }
             })
         })
