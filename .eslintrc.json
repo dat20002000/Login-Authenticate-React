@@ -1,0 +1,69 @@
+{
+	"env": {
+		"node": true,
+		"browser": true,
+		"es6": true
+	},
+	"parser": "babel-eslint",
+	"extends": "airbnb",
+	"rules": {
+		"import/prefer-default-export": "off",
+		"react/jsx-filename-extension": [
+			1,
+			{
+				"extensions": [".js", ".jsx"]
+			}
+		]
+
+	},
+	"settings": {
+		"import/resolver": {
+			"babel-module": {
+				"alias": {
+					"components": "./src/components/",
+					"constants": "./src/constants/",
+					"flux": "./src/flux/",
+					"navigation": "./src/navigation/",
+					"screens": "./src/screens/",
+					"utils": "./src/utils/",
+					"assets": "./src/assets/"
+				},
+				"node_modules": "./node_modules"
+			}
+		}
+	},
+	"overrides": [
+		{
+			"files": ["*-test.js", "*.js"],
+			"rules": {
+				"no-unused-expressions": "off",
+				"class-methods-use-this": "off",
+				"react/destructuring-assignment": "off",
+				"react/prop-types": "warn",
+				"prefer-destructuring": "warn",
+				"import/no-cycle": "warn",
+				"react/prefer-stateless-function": "off",
+				"no-use-before-define": "off",
+				"global-require": "off",
+				"no-unused-vars": "warn",
+				"react/jsx-no-bind": "warn",
+				"no-underscore-dangle": "off",
+				"no-fallthrough": "off",
+				"no-case-declarations": "off",
+				"import/no-dynamic-require": "off",
+				"no-restricted-globals": "warn",
+				"indent": "off",
+				"no-tabs": "off",
+				"space-before-function-paren": "off",
+				"func-names": "off",
+				"import/no-extraneous-dependencies": "off",
+				"no-shadow": "off",
+				"object-curly-newline":"off",
+				"operator-linebreak": "off",
+				"arrow-parens": "off",
+				"implicit-arrow-linebreak":"off",
+				"no-confusing-arrow": "off"
+			}
+		}
+	]
+}
